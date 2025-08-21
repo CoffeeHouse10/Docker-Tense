@@ -1,3 +1,8 @@
+--index-url https://download.pytorch.org/whl/cu129
+torch==2.8.0
+torchvision
+torchaudio
+
 tensorflow[and-cuda]
 jupyter
 matplotlib
