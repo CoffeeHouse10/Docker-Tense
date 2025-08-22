@@ -4,11 +4,11 @@ FROM python:3.12.3-slim
 # Working dir
 WORKDIR /app
 
-# Copy the requirements file into the container
-COPY requirements.txt .
+# Copy the requirements file into the container CURRENTLY SET TO TORCH 
+COPY requirements-torch.txt .
 
 # Install the packages from the requirements.txt file
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-torch.txt
 
 # Copy the rest of your project's files into the container
 COPY . .
