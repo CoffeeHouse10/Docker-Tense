@@ -1,5 +1,6 @@
-# Use the 3.12.3 base
-FROM python:3.12.3-slim
+# Using slim as this is not for production
+FROM python:3.12.3-slim 
+
 
 # Working dir
 WORKDIR /app
@@ -7,11 +8,16 @@ WORKDIR /app
 # Copy the requirements file into the container CURRENTLY SET TO TORCH 
 COPY requirements-torch.txt .
 
-# Install the packages from the requirements.txt file
+# Install the packages 
 RUN pip install --no-cache-dir -r requirements-torch.txt
-
-# Copy the rest of your project's files into the container
 COPY . .
 
-# Optional: Command to run your application when the container starts
-#CMD ["python", "your_main_script.py"]
+# Non-root for safety
+RUN useradd -m appuser
+USER appuser
+
+# Set password (generate your own hash)
+ENV JUPYTER_PASSWORD="sha1:yourhashedpasswordhere"
+
+# Runs Jupyter Notebook when it starts
+CMD ["jupyter", "notebook", "--ip=127.0.0.1", "--no-browser"]
