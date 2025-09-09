@@ -4,6 +4,8 @@ torchvision
 torchaudio
 
 jupyter
+jupyterlab 
+jupyter-server
 matplotlib
 pandas
 seaborn

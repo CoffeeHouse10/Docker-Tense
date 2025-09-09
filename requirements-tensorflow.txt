@@ -1,6 +1,8 @@
 tensorflow[and-cuda]
 
 jupyter
+jupyterlab 
+jupyter-server
 matplotlib
 pandas
 seaborn
