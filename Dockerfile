@@ -1,4 +1,4 @@
-# Using slim as this is not for production
+# Using slim as this is not for production (slim is good enough for dev)
 FROM python:3.12.3-slim 
 
 
@@ -16,8 +16,8 @@ COPY . .
 RUN useradd -m appuser
 USER appuser
 
-# Set password (generate your own hash)
-ENV JUPYTER_PASSWORD="sha1:yourhashedpasswordhere"
+# PASSWORD_HASH should be provided securely at runtime using Docker secrets or environment variables
+ENV JUPYTER_PASSWORD_HASH=""
 
-# Runs Jupyter Notebook when it starts
-CMD ["jupyter", "notebook", "--ip=127.0.0.1", "--no-browser"]
+# Start Jupyter with password
+CMD ["sh", "-c", "jupyter notebook --ip=0.0.0.0 --no-browser --NotebookApp.password=$JUPYTER_PASSWORD_HASH"]
