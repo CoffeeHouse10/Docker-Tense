@@ -1,5 +1,4 @@
-# Using slim as this is not for production (slim is good enough for dev)
-FROM python:3.12.3-slim 
+FROM nvcr.io/nvidia/pytorch:25.08-py3
 
 
 # Working dir
@@ -12,12 +11,15 @@ COPY requirements-torch.txt .
 RUN pip install --no-cache-dir -r requirements-torch.txt
 COPY . .
 
-# Non-root for safety
-RUN useradd -m appuser
-USER appuser
+# Non-root for more safety if you want it
+# RUN useradd -m appuser
+# USER appuser
 
-# PASSWORD_HASH should be provided securely at runtime using Docker secrets or environment variables
+COPY start-jupyter.sh /start-jupyter.sh
+RUN chmod +x /start-jupyter.sh
+
+# JUPYTER_PASSWORD_HASH should be provided securely at runtime using Docker secrets or environment variables (.env file)
 ENV JUPYTER_PASSWORD_HASH=""
 
 # Start Jupyter with password
-CMD ["sh", "-c", "jupyter notebook --ip=0.0.0.0 --no-browser --NotebookApp.password=$JUPYTER_PASSWORD_HASH"]
+CMD ["/start-jupyter.sh"]
